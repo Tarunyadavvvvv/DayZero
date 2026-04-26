@@ -7,7 +7,6 @@ Track how many days you've been free from a habit — displayed in days, weeks, 
 
 ## Screenshot
 ![DayZero App](screenshot.png)
-<img width="312" height="679" alt="image" src="https://github.com/user-attachments/assets/26c1727b-8159-4d2a-8aac-9f36791aed90" />
 
 
 
