@@ -1,5 +1,4 @@
-```markdown
-# DayZero 🟢
+# DayZero
 A simple Android habit quit tracker built with React Native.  
 Track how many days you've been free from a habit — displayed in days, weeks, hours and minutes.
 
