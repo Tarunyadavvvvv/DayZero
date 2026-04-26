@@ -1,97 +1,168 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+```markdown
+# DayZero 🟢
+A simple Android habit quit tracker built with React Native.  
+Track how many days you've been free from a habit — displayed in days, weeks, hours and minutes.
 
-# Getting Started
+---
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Screenshot
+![DayZero App](screenshot.png)
 
-## Step 1: Start Metro
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## What the app does
+- Pick a quit date using a built-in date picker
+- Automatically counts days, weeks, hours and minutes since that date
+- Counter updates live every minute
+- Data persists after closing the app (uses AsyncStorage)
+- Reset your streak anytime with a confirmation dialog
 
-```sh
-# Using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
+## Tech Stack
+| Layer | Technology |
+|---|---|
+| UI | React Native 0.85 |
+| Language | TypeScript |
+| Storage | AsyncStorage |
+| Date Picker | @react-native-community/datetimepicker |
+| Platform | Android |
+
+---
+
+## Prerequisites
+Install all of these before cloning:
+
+| Tool | Version | Download |
+|---|---|---|
+| Node.js | v20 or higher | https://nodejs.org |
+| Java JDK | 17 | https://adoptium.net |
+| Android Studio | Latest | https://developer.android.com/studio |
+| VS Code | Any | https://code.visualstudio.com |
+
+---
+
+## Environment Setup (Windows)
+These are one-time steps. Skip if already done.
+
+### 1. Set JAVA_HOME
+Add to System Environment Variables:
+```
+Variable: JAVA_HOME
+Value: C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+### 2. Set ANDROID_HOME
+```
+Variable: ANDROID_HOME
+Value: C:\Users\YOUR_NAME\AppData\Local\Android\Sdk
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+### 3. Add to PATH
+```
+C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot\bin
+C:\Users\YOUR_NAME\AppData\Local\Android\Sdk\platform-tools
+C:\Users\YOUR_NAME\AppData\Local\Android\Sdk\emulator
 ```
 
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
+### 4. Create local.properties
+Create a file at `android/local.properties` with this content:
+```
+sdk.dir=C\:\\Users\\YOUR_NAME\\AppData\\Local\\Android\\Sdk
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+### 5. Add to android/gradle.properties
+Add this line at the bottom:
+```
+org.gradle.java.home=C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.18.8-hotspot
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## Running the App
 
-## Step 3: Modify your app
+### Step 1 — Clone and install
+```bash
+git clone https://github.com/YOUR_USERNAME/DayZero.git
+cd DayZero
+npm install
+```
 
-Now that you have successfully run the app, let's make changes!
+### Step 2 — Start the emulator
+Create a Pixel 7 emulator (API 34) in Android Studio Device Manager, then run:
+```bash
+emulator -avd Pixel_7 -gpu swiftshader_indirect
+```
+Wait until the Android home screen is fully visible and interactive.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Step 3 — Start Metro (Terminal 1)
+```bash
+npx react-native start
+```
+Leave this terminal open the entire time.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### Step 4 — Run the app (Terminal 2)
+```bash
+npx react-native run-android
+```
+First build takes 10–20 minutes. Subsequent builds take under 2 minutes.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+---
 
-## Congratulations! :tada:
+## Challenges Faced During Development
 
-You've successfully run and modified your React Native App. :partying_face:
+### 1. Node.js version too old
+React Native 0.85 requires Node.js v20+. Running on v18 caused a `TypeError: styleText is not a function` error.  
+**Fix:** Upgrade Node.js to the latest LTS from nodejs.org.
 
-### Now what?
+### 2. Deprecated init command
+`npx react-native@latest init` is no longer supported.  
+**Fix:** Use `npx @react-native-community/cli init DayZero` instead.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+### 3. SDK location not found
+Gradle couldn't find the Android SDK, causing build failure at line 21.  
+**Fix:** Create `android/local.properties` with the correct `sdk.dir` path.
 
-# Troubleshooting
+### 4. adb not recognized
+Android tools were not in the system PATH.  
+**Fix:** Add `platform-tools` and `emulator` folders to PATH environment variable.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### 5. Emulator won't launch — ghost process
+Running `emulator -avd Pixel_7` gave "another emulator instance is running" error.  
+**Fix:** Run `taskkill /F /IM emulator.exe` then retry.
 
-# Learn More
+### 6. Not enough disk space
+Android build downloads NDK, CMake and other tools totalling 3–4 GB. Build failed mid-way.  
+**Fix:** Free up at least 10 GB before building. Clear cache with:
+```bash
+Remove-Item -Recurse -Force "$env:USERPROFILE\.gradle\caches"
+```
 
-To learn more about React Native, take a look at the following resources:
+### 7. Java 17 not found by Gradle
+Even with Java installed, Gradle couldn't find it because `JAVA_HOME` wasn't set.  
+**Fix:** Set `JAVA_HOME` in environment variables AND add `org.gradle.java.home` to `gradle.properties`.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### 8. Emulator OpenGL / GPU crash
+NVIDIA driver version was too old for hardware GPU acceleration.  
+**Fix:** Always launch emulator with:
+```bash
+emulator -avd Pixel_7 -gpu swiftshader_indirect
+```
+
+### 9. AsyncStorage version mismatch
+Default installed version was incompatible with React Native 0.85.  
+**Fix:** Pin to a compatible version:
+```bash
+npm install @react-native-async-storage/async-storage@1.23.1
+```
+
+### 10. VS Code terminal not picking up environment variables
+Setting variables with `setx` requires reopening the terminal. VS Code cached the old environment.  
+**Fix:** Close VS Code completely and reopen, or set variables directly in `gradle.properties`.
+
+---
+
+## License
+MIT
+```
